@@ -1,6 +1,7 @@
 package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wjp.domain.ResponseResult;
 import com.wjp.entity.Article;
 
 /**
@@ -11,4 +12,5 @@ import com.wjp.entity.Article;
 
 public interface ArticleService extends IService<Article> {
 
+    ResponseResult getArticleList();
 }

@@ -2,21 +2,20 @@ package com.wjp.conroller;
 
 
 import com.wjp.domain.ResponseResult;
-import com.wjp.service.ArticleService;
+import com.wjp.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/article")
-public class ArticleController {
+@RequestMapping("/category")
+public class CategoryController {
     @Autowired
-    private ArticleService articleService;
+    private CategoryService categoryService;
 
-
-    @GetMapping("/hotArticleList")
-    public ResponseResult getArticleList() {
-        return articleService.getArticleList();
+    @GetMapping("/getCategoryList")
+    public ResponseResult getCategoryList() {
+        return categoryService.getCategoryList();
     }
 }
