@@ -2,6 +2,7 @@ package com.wjp.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wjp.entity.Article;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author wangjingpeng
@@ -9,6 +10,7 @@ import com.wjp.entity.Article;
  * @createDate 2023-09-13 10:11:21
  * @Entity com.wjp.domain.Article
  */
+@Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
 
 }
