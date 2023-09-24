@@ -1,5 +1,11 @@
 package com.wjp.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
@@ -8,7 +14,12 @@ import java.util.Date;
  * @author wjp
  * @since 2023-09-24 10:17:03
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("sys_user")
 public class SysUser {
+    @TableId
     //主键
     private Long id;
     //用户名
