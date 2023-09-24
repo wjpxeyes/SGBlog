@@ -12,4 +12,6 @@ import com.wjp.entity.SysUser;
 public interface BlogLoginService extends IService<SysUser> {
 
     ResponseResult login(SysUser user);
+
+    ResponseResult logout();
 }

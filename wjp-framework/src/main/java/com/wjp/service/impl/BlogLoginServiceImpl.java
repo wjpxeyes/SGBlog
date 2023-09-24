@@ -10,11 +10,15 @@ import com.wjp.mapper.SysUserMapper;
 import com.wjp.service.BlogLoginService;
 import com.wjp.util.BeanCopyUtil;
 import com.wjp.util.JwtUtil;
+import com.wjp.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wangjingpeng
@@ -30,6 +34,9 @@ public class BlogLoginServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private RedisCache redisCache;
+
     @Override
     public ResponseResult login(SysUser user) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
@@ -40,10 +47,20 @@ public class BlogLoginServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String userId = loginUser.getSysUser().getId().toString();
         String jwt = JwtUtil.createJWT(userId);
+        redisCache.setCacheObject("blogLogin:" + userId, loginUser.getSysUser(), 3, TimeUnit.DAYS);
         UserInfoVo userInfoVo = BeanCopyUtil.copyBean(loginUser.getSysUser(), UserInfoVo.class);
         BlogLoginVo blogLoginVo = new BlogLoginVo(jwt, userInfoVo);
         return ResponseResult.okResult(blogLoginVo);
 
+    }
+
+    @Override
+    public ResponseResult logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        Long id = loginUser.getSysUser().getId();
+        redisCache.deleteObject("blogLogin:" + id);
+        return ResponseResult.okResult();
     }
 }
 
