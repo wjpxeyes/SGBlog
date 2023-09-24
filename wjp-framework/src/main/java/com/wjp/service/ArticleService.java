@@ -10,7 +10,12 @@ import com.wjp.entity.Article;
  * @createDate 2023-09-13 10:11:21
  */
 
+
 public interface ArticleService extends IService<Article> {
 
-    ResponseResult getArticleList();
+    ResponseResult getHotArticleList();
+
+    ResponseResult getArticleList(Integer pageNum, Integer pageSize, Long categoryId);
+
+    ResponseResult getArticle(Long id);
 }

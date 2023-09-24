@@ -2,13 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wjp.mapper.CategoryMapper">
+<mapper namespace="com.wjp.mapper.LinkMapper">
 
-    <resultMap id="BaseResultMap" type="com.wjp.entity.Category">
+    <resultMap id="BaseResultMap" type="com.wjp.entity.Link">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="pid" column="pid" jdbcType="BIGINT"/>
+        <result property="logo" column="logo" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="CHAR"/>
         <result property="createBy" column="create_by" jdbcType="BIGINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
@@ -16,12 +17,5 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
     </resultMap>
-    <select id="getCategoryList" resultType="com.wjp.domain.vo.CategoryVo">
-        SELECT DISTINCT c.`id`, c.`name`
-        FROM wjp_category c
-                 JOIN wjp_article a
-                      ON c.`id` = a.`category_id`
-        WHERE a.`del_flag` = 0
-          AND a.`status` = 0
-    </select>
+
 </mapper>

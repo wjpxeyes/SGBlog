@@ -3,12 +3,17 @@ package com.wjp.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wjp.constants.SystemConstants;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.vo.ArticleListVo;
+import com.wjp.domain.vo.ArticleVo;
 import com.wjp.domain.vo.HotArticleVo;
 import com.wjp.entity.Article;
+import com.wjp.entity.ArticleList;
 import com.wjp.mapper.ArticleMapper;
 import com.wjp.service.ArticleService;
 import com.wjp.util.BeanCopyUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,18 +26,40 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         implements ArticleService {
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @Override
-    public ResponseResult getArticleList() {
+    public ResponseResult getHotArticleList() {
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Article::getStatus, 0);
+        wrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
         wrapper.orderByDesc(Article::getViewCount);
-        Page<Article> page = new Page<>(1, 10);
+        Page<Article> page = new Page<>(SystemConstants.HOT_ARTICLE_PAGE, SystemConstants.HOT_ARTICLE_PAGE_SIZE);
         page(page, wrapper);
         List<Article> articleList = page.getRecords();
         List<HotArticleVo> hotArticleVos = BeanCopyUtil.copyBeanList(articleList, HotArticleVo.class);
         return ResponseResult.okResult(hotArticleVos);
     }
+
+    @Override
+    public ResponseResult getArticleList(Integer pageNum, Integer pageSize, Long categoryId) {
+        if (categoryId == 0) {
+            List<ArticleList> articleList = articleMapper.getArticleList(pageNum - 1, pageSize, 0L);
+            ArticleListVo articleListVo = new ArticleListVo(articleList.size(), articleList);
+            return ResponseResult.okResult(articleListVo);
+        }
+        List<ArticleList> articleList = articleMapper.getArticleList(pageNum - 1, pageSize, categoryId);
+        ArticleListVo articleListVo = new ArticleListVo(articleList.size(), articleList);
+        return ResponseResult.okResult(articleListVo);
+    }
+
+    @Override
+    public ResponseResult getArticle(Long id) {
+        ArticleVo article = articleMapper.getArticle(id);
+
+        return ResponseResult.okResult(article);
+    }
+
 }
 
 
