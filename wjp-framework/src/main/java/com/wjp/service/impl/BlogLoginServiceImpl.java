@@ -51,7 +51,6 @@ public class BlogLoginServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         UserInfoVo userInfoVo = BeanCopyUtil.copyBean(loginUser.getSysUser(), UserInfoVo.class);
         BlogLoginVo blogLoginVo = new BlogLoginVo(jwt, userInfoVo);
         return ResponseResult.okResult(blogLoginVo);
-
     }
 
     @Override
