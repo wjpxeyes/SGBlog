@@ -14,6 +14,7 @@ import com.wjp.mapper.ArticleMapper;
 import com.wjp.service.ArticleService;
 import com.wjp.util.BeanCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         implements ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public ResponseResult getHotArticleList() {
@@ -56,8 +60,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     @Override
     public ResponseResult getArticle(Long id) {
         ArticleVo article = articleMapper.getArticle(id);
-
+        Integer viewCount = (Integer) redisTemplate.opsForHash().get("article:viewCount", id.toString());
         return ResponseResult.okResult(article);
+    }
+
+    @Override
+    public ResponseResult updateViewCount(Long id) {
+        redisTemplate.boundHashOps("article:viewCount").increment(id.toString(), 1L);
+        return ResponseResult.okResult();
     }
 
 }
