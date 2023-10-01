@@ -1,6 +1,7 @@
 package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wjp.domain.ResponseResult;
 import com.wjp.domain.vo.SysMenuVo;
 import com.wjp.entity.SysMenu;
 
@@ -16,4 +17,14 @@ public interface SysMenuService extends IService<SysMenu> {
     List<String> selectMenuPerms(Long id);
 
     List<SysMenuVo> getMenus(Long id);
+
+    ResponseResult menuList(String status, String menuName);
+
+    ResponseResult addMenu(SysMenu sysMenu);
+
+    ResponseResult getMenu(Long id);
+
+    ResponseResult updateMenu(SysMenu sysMenu);
+
+    ResponseResult deleteMenu(Long id);
 }

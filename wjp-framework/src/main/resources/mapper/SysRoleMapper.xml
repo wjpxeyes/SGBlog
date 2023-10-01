@@ -17,6 +17,18 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
+    <insert id="addRole2Menu">
+        INSERT INTO sys_role_menu (role_id, menu_id)
+        VALUES
+        <foreach collection="list" item="menuId" separator=",">
+            (#{id}, #{menuId})
+        </foreach>
+    </insert>
+    <delete id="deleteRole2Menu">
+        delete
+        from sys_role_menu
+        where role_id = #{id}
+    </delete>
 
     <select id="getRoleId" resultType="java.lang.Long">
         SELECT role_id

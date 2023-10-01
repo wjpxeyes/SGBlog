@@ -1,6 +1,8 @@
 package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.RoleDto;
 import com.wjp.entity.SysRole;
 
 import java.util.List;
@@ -13,4 +15,20 @@ import java.util.List;
 public interface SysRoleService extends IService<SysRole> {
 
     List<String> selectRoles(Long id);
+
+    ResponseResult getRoleList(Integer pageNum, Integer pageSize, String roleName, String status);
+
+    ResponseResult updateRole(Long roleId, String status);
+
+    ResponseResult getRoleTree();
+
+    ResponseResult addTree(RoleDto roleDto);
+
+    ResponseResult getRole(Long id);
+
+    ResponseResult getRoleTreeById(Long id);
+
+    ResponseResult updateRoleInfo(RoleDto roleDto);
+
+    ResponseResult deleteRole(Long id);
 }

@@ -20,6 +20,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<ArticleList> getArticleList(@Param("page") Integer pageNum, @Param("pageSize") Integer pageSize, @Param("categoryId") Long categoryId);
 
     ArticleVo getArticle(@Param("id") Long id);
+
+    List<String> getArticleTags(@Param("id") Long id);
 }
 
 

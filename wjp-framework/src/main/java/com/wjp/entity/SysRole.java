@@ -1,5 +1,6 @@
 package com.wjp.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Date;
 @TableName("sys_role")
 public class SysRole {
     //角色ID
+    @TableId
     private Long id;
     //角色名称
     private String roleName;

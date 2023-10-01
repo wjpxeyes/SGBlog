@@ -11,4 +11,6 @@ public interface SysUserService extends IService<SysUser> {
     ResponseResult updateUserInfo(SysUser sysUser);
 
     ResponseResult registerUser(SysUser sysUser);
+
+    ResponseResult userList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
 }

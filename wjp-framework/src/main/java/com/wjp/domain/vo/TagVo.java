@@ -1,7 +1,6 @@
 package com.wjp.domain.vo;
 
-
-import com.wjp.entity.ArticleList;
+import com.wjp.domain.dto.TagDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleListVo {
-    private Integer total;
-    private List<ArticleList> rows;
+public class TagVo {
+    private List<TagDTO> rows;
+    private Long total;
 }

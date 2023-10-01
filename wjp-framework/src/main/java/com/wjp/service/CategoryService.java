@@ -2,6 +2,8 @@ package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.CategoryDto;
+import com.wjp.domain.vo.AdminCategoryVo;
 import com.wjp.entity.Category;
 
 /**
@@ -12,4 +14,14 @@ import com.wjp.entity.Category;
 public interface CategoryService extends IService<Category> {
 
     ResponseResult getCategoryList();
+
+    ResponseResult categoryList(Integer pageNum, Integer pageSize, String name, String status);
+
+    ResponseResult addCategory(CategoryDto categoryDto);
+
+    ResponseResult getCategory(Long id);
+
+    ResponseResult updateCategory(AdminCategoryVo categoryVo);
+
+    ResponseResult deleteCategory(Long id);
 }

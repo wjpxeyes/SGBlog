@@ -3,8 +3,11 @@ package com.wjp.service.impl;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.vo.AdminUserVo;
+import com.wjp.domain.vo.ListVo;
 import com.wjp.domain.vo.UserInfoVo;
 import com.wjp.entity.SysUser;
 import com.wjp.mapper.SysUserMapper;
@@ -59,6 +62,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setPassword(encode);
         save(sysUser);
         return ResponseResult.okResult();
+    }
+
+    //后台获取用户列表
+    @Override
+    public ResponseResult userList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
+        Page<SysUser> page = new Page<>(pageNum, pageSize);
+        page(page);
+        List<SysUser> records = page.getRecords();
+        List<AdminUserVo> adminUserVos = BeanCopyUtil.copyBeanList(records, AdminUserVo.class);
+        return ResponseResult.okResult(new ListVo<>(page.getTotal(), adminUserVos));
     }
 
     private boolean userInfoExist(SysUser sysUser) {

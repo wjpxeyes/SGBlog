@@ -1,10 +1,14 @@
 package com.wjp.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wjp.domain.ResponseResult;
+import com.wjp.domain.vo.AdminMenuVo;
 import com.wjp.domain.vo.SysMenuVo;
 import com.wjp.entity.SysMenu;
 import com.wjp.mapper.SysMenuMapper;
 import com.wjp.service.SysMenuService;
+import com.wjp.util.BeanCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +45,50 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
             sysMenuVos = sysMenuMapper.menuRouter(id);
         }
         return setChildren(sysMenuVos, 0L);
+    }
+
+    @Override
+    public ResponseResult menuList(String status, String menuName) {
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(SysMenu::getMenuName, menuName)
+                .eq(SysMenu::getStatus, status)
+                .eq(SysMenu::getDelFlag, 0)
+                .orderByAsc(SysMenu::getParentId, SysMenu::getOrderNum);
+        List<SysMenu> list = list(wrapper);
+        List<AdminMenuVo> adminMenuVos = BeanCopyUtil.copyBeanList(list, AdminMenuVo.class);
+        return ResponseResult.okResult(adminMenuVos);
+
+    }
+
+    @Override
+    public ResponseResult addMenu(SysMenu sysMenu) {
+        save(sysMenu);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getMenu(Long id) {
+        SysMenu sysMenu = getById(id);
+        AdminMenuVo adminMenuVo = BeanCopyUtil.copyBean(sysMenu, AdminMenuVo.class);
+        return ResponseResult.okResult(adminMenuVo);
+    }
+
+    @Override
+    public ResponseResult updateMenu(SysMenu sysMenu) {
+        saveOrUpdate(sysMenu);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult deleteMenu(Long id) {
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysMenu::getParentId, id);
+        wrapper.eq(SysMenu::getDelFlag, 0);
+        List<SysMenu> list = list(wrapper);
+        if (list.size() > 0)
+            return ResponseResult.errorResult(500, "存在子菜单不允许删除");
+        removeById(id);
+        return ResponseResult.okResult();
     }
 
     private List<SysMenuVo> setChildren(List<SysMenuVo> sysMenuVos, Long parentId) {

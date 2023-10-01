@@ -4,20 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class LinkVo {
+@NoArgsConstructor
+public class AdminCategoryVo {
     private Long id;
-
     private String name;
-
-    private String logo;
-
+    //描述
     private String description;
-    //网站地址
-    private String address;
-
+    //状态0:正常,1禁用
     private String status;
 }

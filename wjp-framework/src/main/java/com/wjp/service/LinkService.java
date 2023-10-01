@@ -2,6 +2,8 @@ package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.LinkDto;
+import com.wjp.domain.vo.LinkVo;
 import com.wjp.entity.Link;
 
 /**
@@ -12,4 +14,14 @@ import com.wjp.entity.Link;
 public interface LinkService extends IService<Link> {
 
     ResponseResult getAllLink();
+
+    ResponseResult getLinkList(Integer pageNum, Integer pageSize, String name, String status);
+
+    ResponseResult addLink(LinkDto linkDto);
+
+    ResponseResult getLink(Long id);
+
+    ResponseResult updateLink(LinkVo linkVo);
+
+    ResponseResult deleteLink(Long id);
 }

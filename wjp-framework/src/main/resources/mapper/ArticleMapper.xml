@@ -57,4 +57,9 @@
                  JOIN wjp_category c
                       ON a.category_id = c.id AND a.`id` = #{id};
     </select>
+    <select id="getArticleTags" resultType="java.lang.String">
+        SELECT tag_id
+        FROM wjp_article_tag
+        WHERE article_id = #{id}
+    </select>
 </mapper>

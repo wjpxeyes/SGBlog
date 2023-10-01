@@ -2,6 +2,7 @@ package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.TagDTO;
 import com.wjp.entity.Tag;
 
 /**
@@ -11,6 +12,13 @@ import com.wjp.entity.Tag;
  */
 public interface TagService extends IService<Tag> {
 
-    ResponseResult tagList();
+    ResponseResult tagList(Integer pageNum, Integer pageSize, TagDTO tagDTO);
 
+    ResponseResult addTag(TagDTO tagDTO);
+
+    ResponseResult deleteTag(Long id);
+
+    ResponseResult getTagInfo(Long id);
+
+    ResponseResult updateTag(TagDTO tagDTO);
 }

@@ -2,6 +2,7 @@ package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.vo.AdminArticleInfoVo;
 import com.wjp.entity.Article;
 
 /**
@@ -20,4 +21,12 @@ public interface ArticleService extends IService<Article> {
     ResponseResult getArticle(Long id);
 
     ResponseResult updateViewCount(Long id);
+
+    ResponseResult getArticleList(Integer pageNum, Integer pageSize, String title, String summary);
+
+    ResponseResult getArticleInfo(Long id);
+
+    ResponseResult updateArticle(AdminArticleInfoVo articleInfoVo);
+
+    ResponseResult deleteArticle(Long id);
 }
