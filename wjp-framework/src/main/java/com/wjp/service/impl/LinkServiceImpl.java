@@ -1,5 +1,6 @@
 package com.wjp.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,8 +39,8 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link>
     public ResponseResult getLinkList(Integer pageNum, Integer pageSize, String name, String status) {
         Page<Link> linkPage = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<Link> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Link::getStatus, status)
-                .like(Link::getName, name);
+        wrapper.eq(StrUtil.isNotBlank(status), Link::getStatus, status)
+                .like(StrUtil.isNotBlank(name), Link::getName, name);
         page(linkPage, wrapper);
         return ResponseResult.okResult(new ListVo<>(linkPage.getTotal(), linkPage.getRecords()));
     }

@@ -1,5 +1,6 @@
 package com.wjp.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wjp.domain.ResponseResult;
@@ -50,8 +51,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public ResponseResult menuList(String status, String menuName) {
         LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(SysMenu::getMenuName, menuName)
-                .eq(SysMenu::getStatus, status)
+        wrapper.like(StrUtil.isNotBlank(menuName), SysMenu::getMenuName, menuName)
+                .eq(StrUtil.isNotBlank(status), SysMenu::getStatus, status)
                 .eq(SysMenu::getDelFlag, 0)
                 .orderByAsc(SysMenu::getParentId, SysMenu::getOrderNum);
         List<SysMenu> list = list(wrapper);

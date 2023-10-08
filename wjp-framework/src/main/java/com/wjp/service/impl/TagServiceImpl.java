@@ -27,8 +27,8 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
     @Override
     public ResponseResult tagList(Integer pageNum, Integer pageSize, TagDTO tagDTO) {
         LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(StrUtil.isNotBlank(tagDTO.getName()), Tag::getName, tagDTO.getName());
-        wrapper.eq(StrUtil.isNotBlank(tagDTO.getRemark()), Tag::getRemark, tagDTO.getRemark());
+        wrapper.like(StrUtil.isNotBlank(tagDTO.getName()), Tag::getName, tagDTO.getName());
+        wrapper.like(StrUtil.isNotBlank(tagDTO.getRemark()), Tag::getRemark, tagDTO.getRemark());
 
         Page<Tag> page = new Page<>(pageNum, pageSize);
         page(page, wrapper);
@@ -63,6 +63,13 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
         Tag tag = BeanCopyUtil.copyBean(tagDTO, Tag.class);
         updateById(tag);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getArticleTagList() {
+        List<Tag> tagList = list();
+        List<TagDTO> tagDTOS = BeanCopyUtil.copyBeanList(tagList, TagDTO.class);
+        return ResponseResult.okResult(tagDTOS);
     }
 }
 

@@ -39,4 +39,8 @@ public class CategoryController {
         return categoryService.deleteCategory(id);
     }
 
+    @GetMapping("/listAllCategory")
+    public ResponseResult getArticleCategoryList() {
+        return categoryService.getArticleCategoryList();
+    }
 }

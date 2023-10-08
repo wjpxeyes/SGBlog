@@ -1,5 +1,6 @@
 package com.wjp.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,8 +39,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     @Override
     public ResponseResult categoryList(Integer pageNum, Integer pageSize, String name, String status) {
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Category::getStatus, status)
-                .like(Category::getName, name)
+        wrapper.eq(StrUtil.isNotBlank(status), Category::getStatus, status)
+                .like(StrUtil.isNotBlank(name), Category::getName, name)
                 .eq(Category::getDelFlag, 0);
         Page<Category> page = new Page<>(pageNum, pageSize);
         page(page, wrapper);
@@ -72,6 +73,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     public ResponseResult deleteCategory(Long id) {
         removeById(id);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getArticleCategoryList() {
+        List<Category> categoryList = lambdaQuery().eq(Category::getStatus, "0")
+                .eq(Category::getDelFlag, 0).list();
+        List<CategoryVo> categoryVos = BeanCopyUtil.copyBeanList(categoryList, CategoryVo.class);
+
+        return ResponseResult.okResult(categoryVos);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.wjp.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,6 +10,7 @@ import com.wjp.domain.dto.RoleDto;
 import com.wjp.domain.vo.ListVo;
 import com.wjp.domain.vo.RoleTreeVo;
 import com.wjp.domain.vo.RoleVo;
+import com.wjp.domain.vo.UserRoleVo;
 import com.wjp.entity.SysMenu;
 import com.wjp.entity.SysRole;
 import com.wjp.mapper.SysRoleMapper;
@@ -47,8 +49,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     public ResponseResult getRoleList(Integer pageNum, Integer pageSize, String roleName, String status) {
         Page<SysRole> sysRolePage = new Page<>();
         LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysRole::getStatus, status)
-                .like(SysRole::getRoleName, roleName)
+        wrapper.eq(StrUtil.isNotBlank(status), SysRole::getStatus, status)
+                .like(StrUtil.isNotBlank(roleName), SysRole::getRoleName, roleName)
                 .orderByAsc(SysRole::getRoleSort);
         page(sysRolePage, wrapper);
         List<RoleVo> roleVos = BeanCopyUtil.copyBeanList(sysRolePage.getRecords(), RoleVo.class);
@@ -129,6 +131,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     public ResponseResult deleteRole(Long id) {
         removeById(id);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getUserRoleList() {
+        List<SysRole> roleList = lambdaQuery().eq(SysRole::getStatus, "0")
+                .eq(SysRole::getDelFlag, 0)
+                .list();
+        List<UserRoleVo> userRoleVos = BeanCopyUtil.copyBeanList(roleList, UserRoleVo.class);
+        return ResponseResult.okResult(userRoleVos);
     }
 
 

@@ -22,6 +22,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
     ArticleVo getArticle(@Param("id") Long id);
 
     List<String> getArticleTags(@Param("id") Long id);
+
+    void addArticleTags(@Param("id") Long id, @Param("list") List<Long> tags);
 }
 
 

@@ -38,5 +38,9 @@ public class TagController {
         return tagService.updateTag(tagDTO);
     }
 
+    @GetMapping("/listAllTag")
+    public ResponseResult getArticleTagList() {
+        return tagService.getArticleTagList();
+    }
 
 }

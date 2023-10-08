@@ -17,7 +17,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_meni")
+@TableName("sys_menu")
 public class SysMenu {
     //菜单ID
     @TableId

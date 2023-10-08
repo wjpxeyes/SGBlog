@@ -54,4 +54,8 @@ public class RoleController {
         return sysRoleService.deleteRole(id);
     }
 
+    @GetMapping("/listAllRole")
+    public ResponseResult getUserRoleList() {
+        return sysRoleService.getUserRoleList();
+    }
 }

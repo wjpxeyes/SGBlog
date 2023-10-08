@@ -3,6 +3,9 @@ package com.wjp.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wjp.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author wangjingpeng
@@ -13,7 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
+    void addUserRoles(@Param("id") Long id, @Param("list") List<Long> roleIds);
 
+    List<Long> getUserRoles(@Param("id") Long id);
 }
 
 

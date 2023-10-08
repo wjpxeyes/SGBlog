@@ -2,6 +2,7 @@ package com.wjp.controller;
 
 
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.ArticleDto;
 import com.wjp.domain.vo.AdminArticleInfoVo;
 import com.wjp.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,13 @@ public class ArticleController {
     }
 
     //删除文章，逻辑删除
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseResult deleteArticle(@PathVariable("id") Long id) {
         return articleService.deleteArticle(id);
+    }
+
+    @PostMapping
+    public ResponseResult addArticle(@RequestBody ArticleDto articleDto) {
+        return articleService.addArticle(articleDto);
     }
 }

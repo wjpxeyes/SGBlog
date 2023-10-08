@@ -2,6 +2,7 @@ package com.wjp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.ArticleDto;
 import com.wjp.domain.vo.AdminArticleInfoVo;
 import com.wjp.entity.Article;
 
@@ -29,4 +30,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult updateArticle(AdminArticleInfoVo articleInfoVo);
 
     ResponseResult deleteArticle(Long id);
+
+    ResponseResult addArticle(ArticleDto articleDto);
 }

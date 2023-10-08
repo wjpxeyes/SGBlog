@@ -1,5 +1,7 @@
 package com.wjp.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("wjp_category")
 public class Category {
-
+    @TableId
     private Long id;
     //分类名
     private String name;

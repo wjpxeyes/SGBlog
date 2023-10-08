@@ -20,7 +20,7 @@ public class LinkController {
     }
 
     @PostMapping
-    public ResponseResult addLink(LinkDto linkDto) {
+    public ResponseResult addLink(@RequestBody LinkDto linkDto) {
         return linkService.addLink(linkDto);
     }
 

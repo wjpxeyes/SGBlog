@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wjp.constants.SystemConstants;
 import com.wjp.domain.ResponseResult;
+import com.wjp.domain.dto.ArticleDto;
 import com.wjp.domain.vo.*;
 import com.wjp.entity.Article;
 import com.wjp.entity.ArticleList;
@@ -15,6 +16,7 @@ import com.wjp.util.BeanCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -108,6 +110,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     @Override
     public ResponseResult deleteArticle(Long id) {
         removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult addArticle(ArticleDto articleDto) {
+        Article article = BeanCopyUtil.copyBean(articleDto, Article.class);
+        save(article);
+        Long id = article.getId();
+        articleMapper.addArticleTags(id, articleDto.getTags());
         return ResponseResult.okResult();
     }
 
